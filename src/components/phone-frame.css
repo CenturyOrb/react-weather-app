@@ -1,0 +1,12 @@
+/* frame mimics the aspect ratio of iP12pro */
+.phone-frame {	
+	background-color: #45A1FD; /* TODO: update this so it reflects current time */
+	width: calc(90vh * 0.46);
+	height: 90vh;
+	padding: 2rem 1rem 1rem 1rem; 
+	
+	border-radius: 40px;
+  	overflow: hidden;
+  	box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  	border: 1px solid #f8f8f2;
+}
