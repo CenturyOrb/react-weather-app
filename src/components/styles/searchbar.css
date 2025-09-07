@@ -1,0 +1,12 @@
+#city-form {
+	border-radius: 1rem;
+	overflow: hidden;
+}
+
+#city-search {
+	width: 100%;
+	background-color: whitesmoke;
+	padding: 0.5rem;
+	border: none;
+	outline: none;
+}

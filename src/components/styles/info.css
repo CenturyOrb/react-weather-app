@@ -1,0 +1,43 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	width: 100%;
+	margin: 1rem 0;
+	background-repeat: no-repeat;
+}
+
+.container * { 
+	color: whitesmoke;
+	text-shadow: 2px 2px 3px black;
+    position: relative;
+}
+
+#info-condition { 
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+	width: 75%;
+	aspect-ratio: 1 / 1;
+	background-size: cover;
+	background-position: center;
+}
+
+#info-city {
+	font-size: 1.75rem;
+}
+
+#info-temp {
+	top: 10px;
+	position: absolute;
+	font-size: 3rem;
+	line-height: 2rem;
+}
+
+#grouped {
+	text-align: center;
+	position: absolute;
+	bottom: 0px;
+}
