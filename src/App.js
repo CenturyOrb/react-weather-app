@@ -16,14 +16,18 @@ function App() {
 
 	// city gets changed -> re-renders -> useEffect(callback)
 	// useEffect(callback, [...state] also runs when components mounts
-	// (1) axios calls for current OWM and 5Day OWM 
+	// axios get requst for current OWM and 5D OWM
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const currentResponse = await axios.get(url, {
                 	params: { q: city, appid: api_key, units: 'imperial'}		
                 });	
+				const fiveDayResponse = await axios.get(urlFiveDay, {
+					params: { q: city, appid: api_key, units: 'imperial'}
+				});
 				setCurrentData(currentResponse.data);
+				setFiveDayData(fiveDayResponse.data);
 			} catch (error)	{ console.error(error) }
 		}
 		// this section to avoid axios.get on first open
