@@ -1,10 +1,10 @@
-import { useState } from 'react'
 import './styles/5Day.css'
 
-const FiveDay = ({ }) => {
+const FiveDay = ( { data }) => {
+	console.log(data);
 	return(	
-		<div id='five-day'>
-				
+		<div id='five-day'>				
+		
 		</div>
 	);	
 }
