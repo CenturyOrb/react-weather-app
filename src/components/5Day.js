@@ -50,9 +50,6 @@ const calculateFiveDay = (daysArray, daysData) => {
 			count = 1;
 		}
 	});
-	console.log(fiveDay);
-	console.log(daysArray);
-	console.log(daysData);
 }
 
 export default FiveDay;
