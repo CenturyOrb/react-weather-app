@@ -38,7 +38,7 @@ function App() {
 	return (
 		<div className="phone-frame">
 			<SearchBar searchCity={setCity}/>
-			<Info data={currentData}/>
+			<Info data={currentData} />
 			<FiveDay data={fiveDayData}/>
 		</div>
 	);
