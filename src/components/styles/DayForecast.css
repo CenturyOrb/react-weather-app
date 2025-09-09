@@ -1,4 +1,21 @@
 #day-forecast {
-	outline: 1px solid purple;
+	outline: 2px solid rgba(255, 255, 255, 0.4);
 	border-radius: 0.5rem;
+	padding: 3px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	color: whitesmoke;
+	font-weight: 600;
 }
+
+.icon {
+	width: 100%;
+	aspect-ratio: 1/1;
+	background-size: cover;
+	background-position: center;
+}
+
+

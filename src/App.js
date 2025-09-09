@@ -8,7 +8,7 @@ import FiveDay from './components/5Day.js';
 function App() {
 	const api_key = '3cb9449ad382eea08832734e94a58749';
 	const [currentData, setCurrentData] = useState({});
-	const [fiveDayData, setFiveDayData] = useState({});
+	const [fiveDayData, setFiveDayData] = useState([]);
 	const [city, setCity] = useState('');
 	const url = `https://api.openweathermap.org/data/2.5/weather`;
 	const urlFiveDay = `https://api.openweathermap.org/data/2.5/forecast`;
@@ -27,14 +27,19 @@ function App() {
 					params: { q: city, appid: api_key, units: 'imperial'}
 				});
 				setCurrentData(currentResponse.data);
-				setFiveDayData(fiveDayResponse.data);
+				// fiveDayResponse should handle all the filtering/reformatting
+				const days = calculateFiveDay(fiveDayResponse.data.list, currentResponse.data);
+				setFiveDayData(days);
 			} catch (error)	{ console.error(error) }
 		}
 		// this section to avoid axios.get on first open
 		if (!isFirstRender.current && city) fetchData();
 		else isFirstRender.current = false;
 	}, [city]);	
-	
+
+	useEffect(() => {
+	}, [fiveDayData]);
+
 	return (
 		<div className="phone-frame">
 			<SearchBar searchCity={setCity}/>
@@ -44,4 +49,43 @@ function App() {
 	);
 }
 
-export default App;
+const calculateFiveDay = (fiveDay, currentDay) => {
+	const currentDayDate = new Date(currentDay.dt * 1000);
+	let cumTemp = 0;
+	let count = 0;
+	// abstract needed data from currentDay (temp, weekday, icon);
+	const days = [{ 
+		temp: Math.round(currentDay.main.temp),
+		weekday: currentDayDate.toLocaleDateString('en-US', { weekday: 'short' }),
+		icon: currentDay.weather[0].icon
+	}];
+	
+	const removedCurrentDay = fiveDay.filter(day => {
+		return new Date(day.dt * 1000).toDateString() !== new Date().toDateString();
+	});	
+
+	removedCurrentDay.forEach((day, index, arr) => {
+    	const curr = new Date(day.dt * 1000);
+    	
+    	if (!index) { // first day of the array (index = 0)
+    		cumTemp = day.main.temp;
+    		count = 1;
+    	} else if (curr.toDateString() !== new Date(arr[index-1].dt * 1000).toDateString()) { 
+    		const prevDay = new Date(arr[index-1].dt * 1000);
+    		days.push({
+    			temp: Math.round(cumTemp / count),
+    			weekday: prevDay.toLocaleDateString('en-US', { weekday: 'short' }),
+    			icon: arr[index-1].weather[0].icon
+    		});
+    		cumTemp = day.main.temp;
+    		count = 1;
+    	} else {
+    		cumTemp += day.main.temp;	
+    		count++;
+    	}	
+    });
+
+	return days;
+}
+
+export default App
