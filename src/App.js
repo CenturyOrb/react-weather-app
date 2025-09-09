@@ -12,6 +12,7 @@ function App() {
 	const [city, setCity] = useState('');
 	const url = `https://api.openweathermap.org/data/2.5/weather`;
 	const urlFiveDay = `https://api.openweathermap.org/data/2.5/forecast`;
+	const urlAP = 'http://api.openweathermap.org/data/2.5/air_pollution'
 	const isFirstRender = useRef(true);
 
 	// city gets changed -> re-renders -> useEffect(callback)
@@ -26,19 +27,22 @@ function App() {
 				const fiveDayResponse = await axios.get(urlFiveDay, {
 					params: { q: city, appid: api_key, units: 'imperial'}
 				});
+				// get long and lat for current air pollution api call 
+				const airPollutionResponse = await axios.get(urlAP, {
+					params: { lon: currentResponse.data.coord.lon,
+							lat: currentResponse.data.coord.lat,
+							appid: api_key
+				}});
+				console.log(airPollutionResponse.data.list[0].main.aqi);
+
 				setCurrentData(currentResponse.data);
-				// fiveDayResponse should handle all the filtering/reformatting
-				const days = calculateFiveDay(fiveDayResponse.data.list, currentResponse.data);
-				setFiveDayData(days);
+				setFiveDayData(calculateFiveDay(fiveDayResponse.data.list, currentResponse.data));
 			} catch (error)	{ console.error(error) }
 		}
 		// this section to avoid axios.get on first open
 		if (!isFirstRender.current && city) fetchData();
 		else isFirstRender.current = false;
 	}, [city]);	
-
-	useEffect(() => {
-	}, [fiveDayData]);
 
 	return (
 		<div className="phone-frame">
@@ -75,7 +79,7 @@ const calculateFiveDay = (fiveDay, currentDay) => {
     		days.push({
     			temp: Math.round(cumTemp / count),
     			weekday: prevDay.toLocaleDateString('en-US', { weekday: 'short' }),
-    			icon: arr[index-1].weather[0].icon
+    			icon: arr[index-1].weather[0].icon.replace("n", "d") 
     		});
     		cumTemp = day.main.temp;
     		count = 1;

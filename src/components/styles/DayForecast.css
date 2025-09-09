@@ -1,5 +1,5 @@
 #day-forecast {
-	outline: 2px solid rgba(255, 255, 255, 0.4);
+	background-color: rgba(255, 255, 255, 0.2);
 	border-radius: 0.5rem;
 	padding: 3px;
 
@@ -17,5 +17,3 @@
 	background-size: cover;
 	background-position: center;
 }
-
-

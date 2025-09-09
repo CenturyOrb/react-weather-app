@@ -2,9 +2,6 @@ import { useEffect } from 'react'
 import './styles/DayForecast.css'
 // data here is from 5Day.js
 function DayForecast({ data }) {
-	useEffect(() => { 
-		console.log(data);
-	}, [data]);
 	
 	// should display day of the week on top -> icon -> temp
 	return (
