@@ -4,12 +4,14 @@ import './components/phone-frame.css';
 import SearchBar from './components/search.js';
 import Info from './components/info.js';
 import FiveDay from './components/5Day.js';
+import AirPollution from './components/AirPollution.js'
 
 function App() {
 	const api_key = '3cb9449ad382eea08832734e94a58749';
 	const [currentData, setCurrentData] = useState({});
 	const [fiveDayData, setFiveDayData] = useState([]);
 	const [city, setCity] = useState('');
+	const [airPollutionData, setAirPollutionData] = useState({});
 	const url = `https://api.openweathermap.org/data/2.5/weather`;
 	const urlFiveDay = `https://api.openweathermap.org/data/2.5/forecast`;
 	const urlAP = 'http://api.openweathermap.org/data/2.5/air_pollution'
@@ -33,10 +35,10 @@ function App() {
 							lat: currentResponse.data.coord.lat,
 							appid: api_key
 				}});
-				console.log(airPollutionResponse.data.list[0].main.aqi);
 
 				setCurrentData(currentResponse.data);
 				setFiveDayData(calculateFiveDay(fiveDayResponse.data.list, currentResponse.data));
+				setAirPollutionData(airPollutionResponse.data.list[0]);
 			} catch (error)	{ console.error(error) }
 		}
 		// this section to avoid axios.get on first open
@@ -49,6 +51,7 @@ function App() {
 			<SearchBar searchCity={setCity}/>
 			<Info data={currentData} />
 			<FiveDay data={fiveDayData}/>
+			<AirPollution data={airPollutionData}/>
 		</div>
 	);
 }

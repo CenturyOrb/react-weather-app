@@ -7,7 +7,7 @@ const FiveDay = ( { data }) => {
 	return (
         <div id='five-day'>
             {data.length === 0 ? (
-                'nothing'
+				null
             ) : (
                 data.map((day, index) => (
                     <DayForecast key={index} data={day}></DayForecast>
